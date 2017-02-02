@@ -8,14 +8,19 @@
 
 import UIKit
 
-class PhotosViewController: UIViewController {
+class PhotosViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
 
     var posts: [NSDictionary] = []
-
+    
+    
+    @IBOutlet weak var feedTableView: UITableView!
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        feedTableView.rowHeight = 240
         // Do any additional setup after loading the view.
 //        var feeds?
         
@@ -52,6 +57,21 @@ class PhotosViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) ->
+        Int {
+       
+        
+        return posts.count
+        
+    }
+    
+     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PhotoCell") as! PhotoCell
+        
+        let post = posts[indexPath.row]
+    
     }
     
 
