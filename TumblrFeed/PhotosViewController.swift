@@ -25,6 +25,8 @@ class PhotosViewController: UIViewController,UITableViewDataSource,UITableViewDe
         // Do any additional setup after loading the view.
 //        var feeds?
         
+        feedTableView.delegate = self
+        feedTableView.dataSource = self
         
         let url = URL(string:"https://api.tumblr.com/v2/blog/humansofnewyork.tumblr.com/posts/photo?api_key=Q6vHoaVm5L1u2ZAW1fqv3Jw48gFzYVg9P0vH0VHl3GVy6quoGV")
         let request = URLRequest(url: url!)
@@ -78,6 +80,7 @@ class PhotosViewController: UIViewController,UITableViewDataSource,UITableViewDe
             // photos is NOT nil, go ahead and access element 0 and run the code in the curly braces
             let imageUrlString = photos[0].value(forKeyPath: "original_size.url") as? String
             if let imageUrl = URL(string: imageUrlString!) {
+                
                 // URL(string: imageUrlString!) is NOT nil, go ahead and unwrap it and assign it to imageUrl and run the code in the curly braces
                 cell.cellImageView.setImageWith(imageUrl)
             } else {
