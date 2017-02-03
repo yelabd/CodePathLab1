@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AFNetworking
 
 class PhotosViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
 
@@ -48,6 +49,7 @@ class PhotosViewController: UIViewController,UITableViewDataSource,UITableViewDe
                         // This is where you will store the returned array of posts in your posts property
 //                        self.feeds = responseFieldDictionary["posts"] as! [NSDictionary]
                         self.posts = responseFieldDictionary["posts"] as! [NSDictionary]
+                        self.feedTableView.reloadData()
                     }
                 }
         });
@@ -71,7 +73,21 @@ class PhotosViewController: UIViewController,UITableViewDataSource,UITableViewDe
         let cell = tableView.dequeueReusableCell(withIdentifier: "PhotoCell") as! PhotoCell
         
         let post = posts[indexPath.row]
-    
+        
+        if let photos = post.value(forKeyPath: "photos") as? [NSDictionary] {
+            // photos is NOT nil, go ahead and access element 0 and run the code in the curly braces
+            let imageUrlString = photos[0].value(forKeyPath: "original_size.url") as? String
+            if let imageUrl = URL(string: imageUrlString!) {
+                // URL(string: imageUrlString!) is NOT nil, go ahead and unwrap it and assign it to imageUrl and run the code in the curly braces
+                cell.cellImageView.setImageWith(imageUrl)
+            } else {
+                // URL(string: imageUrlString!) is nil. Good thing we didn't try to unwrap it!
+            }
+        } else {
+            // photos is nil. Good thing we didn't try to unwrap it!
+        }
+        
+        return cell
     }
     
 
